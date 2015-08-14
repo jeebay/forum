@@ -1,0 +1,14 @@
+
+<form>
+    <button>Leave a new comment</button>
+</form>
+
+
+<ul>
+    <%comments.forEach(function(comment) {%>
+    <li>
+        <p><%=comment.content%><br />
+        <em>User: <%=comment.user_name%></em> | posted on: <em><%=comment.date_created%></em></p>
+    </li>
+    <% }) %>
+</ul>

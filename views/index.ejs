@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Forum</title>
+    <link rel="stylesheet" href="/css/normalize.css">
+    <link rel="stylesheet" href="/css/skeleton.css">
+    <link rel="stylesheet" href="/css/index.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+</head>
+<body>
+    <nav>
+        <ul class="nav-bar">
+            <li class="nav-item"> <h5><a href="/">Home</a></h5> </li>
+            <li class="nav-item"> <h5><a href="/toread">Saved List</a></h5> </li>
+            <li class="nav-search"> <form action="/search" method="GET"> <input type="text" name="terms" class="menu-search"> <button class="button-primary search-button">search</button> </form> </li>
+        </ul>
+
+    </nav>
+    <div class="menu-spacer"></div>
+    <div class="container">
+        <div class="row">
+            <div class="one-half column recent-articles">
+                <h2>Recent Articles</h2>
+                <ul class="recent-article-list">
+                    <% articles.forEach(function (article) {%>
+                        <li class="article-listing">
+                            <h3 class="article-title"><%=article.title%></h3>
+                            <p><em>User: <%=article.user_name%></em> | posted on: <em><%=article.date_created%></em></p>
+                            <p class="first-paragraph"><%=article.snippet%></p>
+                            <div class="article-footer">
+                                <form class="article-form" action="/articles/<%=article.article_id%>" method="GET">
+                                    <button class="button-primary">read now</button>
+                                </form>
+                                <form class="article-form" action="/toread" method="POST">
+                                    <input type="text" name="article" value="<%=article.id%>" style="display:none" />
+                                    <button>save for later</button>
+                                </form>
+                            </div>
+                        </li>
+                    <% }) %>
+                </ul>
+            </div>
+            <!-- <div class="one-half column popular-articles">
+                <p>filler</p>
+            </div> -->
+        </div>
+    </div>
+</body>
+</html>
