@@ -47,6 +47,10 @@ app.get('/users/:user', function (req, res) {
     });
 });
 
+app.get('/articles/new', function (req, res) {
+    res.render('newarticle.ejs');
+})
+
 app.get('/articles/:article', function (req, res) {
     db.all('SELECT * FROM paragraphs WHERE article_id=? ORDER BY paragraphs.id ASC', parseInt(req.params.article), function (err, paragraphs) {
         db.get('SELECT * FROM articles WHERE articles.id=?',parseInt(req.params.article), function (err, article) {

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title><%=article.title%></title>
+    <title>New Article</title>
     <link rel="stylesheet" href="/css/normalize.css">
     <link rel="stylesheet" href="/css/skeleton.css">
     <link rel="stylesheet" href="/css/article.css">
@@ -19,37 +19,27 @@
 
     </nav>
     <div class="menu-spacer"></div>
-    <section class="header-section">
-        <div class="container"> 
+    <div class="container"> 
+        <form action="/articles" method="POST">
             <div class="row">
-                <div class="one-half column article-title">
-                    <h2><%=article.title%></h2>
+                <div class="six columns">
+                    <label for="user-name">User name</label>
+                    <input class="u-full-width" type="text" name="user_name" placeholder="enter username" required id="user-name">
                 </div>
             </div>
-        </div>
-    </section>
-    <section class="article">
-        <div class="container">
             <div class="row">
-                <div class="twelve columns article-body">
-                    <% paragraphs.forEach(function (paragraph) {%>
-                    <div class="row paragraph">
-                        <div class="one-half column paragraph-content">
-                            <p class="content" id="p<%=paragraph.id%>"><%=paragraph.content%></p>
-                        </div>
-                        <div class="one-half column paragraph-comments">
-                            
-                        </div>
-                    </div>
-                    <% }) %>
-                </div>
-                <div class="byline">
-                    <p><em>User: <%=user.user_name%></em> | posted on: <em><%=article.date_created%></em></p>
+                <div class="twelve columns">
+                    <label for="title">Title</label>
+                    <input class="u-full-width" type="text" name="title" placeholder="enter title" required id="title">
+                    <label for="article-body">Article Text</label>
+                    <textarea class="u-full-width" placeholder="What I know is..." required id="article-body"></textarea>
+                    <label for="url">Source URL</label>
+                    <input class="u-full-width" type="text" name="url" placeholder="enter source url" id="url">
                 </div>
             </div>
-        </div>
-    </section>
-
+            
+        </form>
+    </div>
     <script language="javascript" type="text/javascript" src="/js/article.js"></script>
 </body>
 </html>
