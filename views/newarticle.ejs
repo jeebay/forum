@@ -9,6 +9,16 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 </head>
 <body>
+    <div class="not-found hidden">
+        <div class="not-found-body">
+            <h3>User name not found</h3>
+            <p>Please enter a valid user name to submit a new article. 
+            <br />
+            Hit the signup button to create a new username or enter 'anonymous' in the username field to post without a name</p>
+            <button class="button-primary not-found-ok">Ok</button>
+        </div>
+    </div>
+
     <nav>
         <ul class="nav-bar">
             <li class="nav-item"> <h5><a href="/">Home</a></h5> </li>
@@ -32,14 +42,15 @@
                     <label for="title">Title</label>
                     <input class="u-full-width" type="text" name="title" placeholder="enter title" required id="title">
                     <label for="article-body">Article Text</label>
-                    <textarea class="u-full-width" placeholder="What I know is..." required id="article-body"></textarea>
+                    <textarea class="u-full-width article-content" name="article_body" placeholder="What I know is..." required id="article_body"></textarea>
                     <label for="url">Source URL</label>
                     <input class="u-full-width" type="text" name="url" placeholder="enter source url" id="url">
+                    <button class="button-primary submit">Submit</button>
                 </div>
             </div>
             
         </form>
     </div>
-    <script language="javascript" type="text/javascript" src="/js/article.js"></script>
+    <script language="javascript" type="text/javascript" src="/js/newarticle.js"></script>
 </body>
 </html>

@@ -57,4 +57,25 @@ nav {
 	margin-bottom: 60px;
 }
 
-.
+.not-found {
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background-color: rgba(200,200,200,.8);
+	z-index: 35;
+}
+
+.not-found-body {
+	max-width: 40%;
+	margin: auto;
+}
+
+.hidden {
+	display: none;
+}
+
+.article-content {
+	height: 25em;
+}

@@ -76,15 +76,49 @@ app.get('/ajax/paragraphs/:id', function (req, res) {
         if (err) {
             throw err;
         } else {
-            // var html = ejs.render('./views/showcomments.ejs', {"comments":rows});
-            // console.log(html);
-            // res.send(html);
             res.render('showcomments.ejs', {"comments":rows});
         }
     });
 });
 
+app.get('/ajax/checkuser', function (req, res) {
+    db.get('SELECT * FROM users WHERE users.user_name=?', req.query.user_name, function (err, row) {
+        var user = JSON.stringify(row)
+        // console.log(user);
+        res.send(row);
+    });
+});
 
+app.post('/articles', function (req, res) {
+    db.get('SELECT * FROM users WHERE users.user_name=?',req.body.user_name, function (err, user) {
+        db.run('INSERT INTO articles (title, source_url, user_id) VALUES (?, ?, ?)', req.body.title, req.body.url, parseInt(user.id), function (err) {
+            if (err) {
+                throw err;
+            } else {
+                db.get('SELECT last_insert_rowid() AS article_id', function (err, rowid) {
+                    var articleID = rowid.article_id;
+                    var paragraphs = article.split(/[\n\r]{2,}/);
+                    paragraphs.forEach(function (paragraph, index) {
+                        db.run('INSERT INTO paragraphs (article_id, paragraph_no, content) VALUES (?, ?, ?)', articleID, (index+1), paragraph, function (err) {
+                            if (err) {
+                                throw err;
+                            } else {
+                                console.log('created paragraph');
+                            }
+                        })
+                    });
+                res.redirect('/');
+                });
+            }
+        });
+        console.log("title",req.body.title),
+        console.log("source_url",req.body.url)
+        console.log("user_id",user.id)
+        var article = req.body.article_body;
+        console.log(article.split(/[\n\r]{2,}/));
+
+    })
+})
 
 
 

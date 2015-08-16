@@ -41,7 +41,7 @@ CREATE TABLE comments (
 	FOREIGN KEY (user_id) REFERENCES users(id),
 	FOREIGN KEY (paragraph_id) REFERENCES paragraphs(id)
 );
-INSERT INTO users (user_name, password) VALUES ('jeebay', 'bbbb'), ('georgie', 'gggg'), ('chief', 'cccc'), ('belle', 'eeee');
+INSERT INTO users (user_name, password) VALUES ('jeebay', 'bbbb'), ('georgie', 'gggg'), ('chief', 'cccc'), ('belle', 'eeee'), ('anonymous','aaaa');
 
 INSERT INTO articles (title, source_url, user_id) VALUES ('Connecticut ends death penalty', 'http://www.reuters.com/article/2015/08/13/us-usa-connecticut-execution-idUSKCN0QI1YW20150813', 2);
 INSERT INTO articles (title, source_url, user_id) VALUES ('Yes, teflon does make you sick', 'https://firstlook.org/theintercept/2015/08/11/dupont-chemistry-deception/', 1);
