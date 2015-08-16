@@ -21,18 +21,18 @@
 
     <div class="comment-modal hidden">
         <div class="comment-modal-body">
-            <h3>Leave a new comment</h3>
-            <p>Paragraph Text:</p>
+            <h3 class="modal-title">Leave a new comment</h3>
             <p class="comment-modal-ptext"></p>
-            <form action="/paragraph" method="POST">
+            <form action="/comments" method="POST" class="comment-form">
                 <label for="user-name">User Name</label>
-                <input type="text" id="user-name" name="user_name" required placeholder="user name">
+                <input type="text" id="user-name" name="user_name" required placeholder="user name"><br>
                 <label for="new-comment-content">Leave your comment here</label>
-                <textarea name="content" id="new-comment-content"></textarea>
-                <input name="paragraph_id" class="paragraph-id"style="display:none">
-                <input name="user_id" class="user-id" style="display:none">
+                <textarea name="content" id="new-comment-content"></textarea><br>
                 <button class="button-primary submit-comment">Submit</button>
+                <input type="hidden" name="paragraph_id" class="paragraph-id">
+                <input type="hidden" name="user_id" class="user-id">
             </form>
+            <input type="submit" name="cancel" class="cancel button" value="Cancel">
         </div>
     </div>
 

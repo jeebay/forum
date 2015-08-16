@@ -58,23 +58,53 @@ nav {
 	margin-bottom: 60px;
 }
 
-.not-found {
+.not-found, .comment-modal {
 	height: 100%;
 	width: 100%;
-	position: absolute;
+	position: fixed;
 	top: 0;
 	left: 0;
-	display: table;
-	background-color: rgba(200,200,200,.8);
+	/*display: table;*/
+	background-color: rgba(255,255,255,.8);
 	z-index: 35;
 }
 
-.not-found-body {
-	max-width: 30%;
+.not-found-body, .comment-modal-body {
+	width: 800px;
+	max-width: 60%;
 	margin: auto;
-	display: table-cell;
-	vertical-align: middle;
+	background-color: rgba(255,255,255,1);
+	/*display: table-cell;*/
+	/*text-align: center;*/
+	border: 1px solid red;
+	padding: 10px;
+	z-index: 40;
+}
+
+.modal-title {
 	text-align: center;
+}
+
+.comment-form {
+	margin-bottom: 0;
+}
+
+#user-name {
+	margin: 0 auto;
+}
+
+.comment-modal-ptext {
+	width: 80%;
+	margin: 0 auto;
+	margin-bottom: 2em;
+	padding-left: 5px;
+	padding-top: 5px;
+	box-shadow: 2px 2px 5px black; 
+}
+
+#new-comment-content {
+	width: 75%;
+	height: 6em; 
 }
 
 .hidden {

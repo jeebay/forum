@@ -52,7 +52,7 @@ app.get('/articles/new', function (req, res) {
 })
 
 app.get('/articles/:article', function (req, res) {
-    db.all('SELECT * FROM paragraphs WHERE article_id=? ORDER BY paragraphs.id ASC', parseInt(req.params.article), function (err, paragraphs) {
+    db.all('SELECT paragraphs.*, (SELECT COUNT(*) FROM comments WHERE paragraphs.id = comments.paragraph_id) AS comment_count FROM paragraphs WHERE paragraphs.article_id=? ORDER BY paragraphs.id ASC', parseInt(req.params.article), function (err, paragraphs) {
         db.get('SELECT * FROM articles WHERE articles.id=?',parseInt(req.params.article), function (err, article) {
             db.get('SELECT * FROM users WHERE users.id = ?',article.user_id, function (err, user) {
                 res.render('article.ejs', {"paragraphs":paragraphs, "article":article, "user":user});
@@ -69,7 +69,11 @@ app.get('/articles/:article/:paragraph', function (req, res ) {
             });
         });
     });
-})
+});
+
+app.get('/users/new', function (req, res) {
+    res.render('newuser.ejs');
+});
 
 app.get('/ajax/paragraphs/:id', function (req, res) {
     db.all('SELECT comments.*, users.user_name FROM comments, users WHERE comments.paragraph_id=? AND comments.user_id = users.id', parseInt(req.params.id), function (err, rows) {
@@ -111,15 +115,21 @@ app.post('/articles', function (req, res) {
                 });
             }
         });
-        console.log("title",req.body.title),
-        console.log("source_url",req.body.url)
-        console.log("user_id",user.id)
-        var article = req.body.article_body;
-        console.log(article.split(/[\n\r]{2,}/));
+    });
+});
 
-    })
-})
-
+app.post('/comments', function (req, res) {
+    db.run('INSERT INTO comments (user_id, content, paragraph_id) VALUES (?, ?, ?)', parseInt(req.body.user_id,10), req.body.content, parseInt(req.body.paragraph_id,10), function (err) {
+        if (err) {
+            throw err;
+        } else {
+            console.log('added new comment');
+            var refererIndex = req.rawHeaders.indexOf('Referer');
+            var referer = req.rawHeaders[refererIndex + 1]            
+            res.redirect(referer);
+        }
+    });
+});
 
 
 
