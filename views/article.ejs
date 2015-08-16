@@ -18,6 +18,24 @@
         </ul>
 
     </nav>
+
+    <div class="comment-modal hidden">
+        <div class="comment-modal-body">
+            <h3>Leave a new comment</h3>
+            <p>Paragraph Text:</p>
+            <p class="comment-modal-ptext"></p>
+            <form action="/paragraph" method="POST">
+                <label for="user-name">User Name</label>
+                <input type="text" id="user-name" name="user_name" required placeholder="user name">
+                <label for="new-comment-content">Leave your comment here</label>
+                <textarea name="content" id="new-comment-content"></textarea>
+                <input name="paragraph_id" class="paragraph-id"style="display:none">
+                <input name="user_id" class="user-id" style="display:none">
+                <button class="button-primary submit-comment">Submit</button>
+            </form>
+        </div>
+    </div>
+
     <div class="menu-spacer"></div>
     <section class="header-section">
         <div class="container"> 
@@ -35,9 +53,17 @@
                     <% paragraphs.forEach(function (paragraph) {%>
                     <div class="row paragraph">
                         <div class="one-half column paragraph-content">
-                            <p class="content" id="p<%=paragraph.id%>"><%=paragraph.content%></p>
+                            <p class="content" id="p<%=paragraph.id%>"><%=paragraph.content%>
+                            </p>
+                            <div> 
+                                <p class="comment-indicator <%= paragraph.comment_count > 0 ? 'yes-comments' : 'no-comments' %>">&nbsp</p>
+                            </div>
                         </div>
-                        <div class="one-half column paragraph-comments">
+                        <!-- <div class="one column">
+                            
+                            &nbsp;
+                        </div> -->
+                        <div class="five columns paragraph-comments">
                             
                         </div>
                     </div>

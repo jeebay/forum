@@ -20,6 +20,7 @@ nav {
 
 .nav-search {
 	list-style: none;
+	float: right;
 }
 
 .id-list {
@@ -63,13 +64,17 @@ nav {
 	position: absolute;
 	top: 0;
 	left: 0;
+	display: table;
 	background-color: rgba(200,200,200,.8);
 	z-index: 35;
 }
 
 .not-found-body {
-	max-width: 40%;
+	max-width: 30%;
 	margin: auto;
+	display: table-cell;
+	vertical-align: middle;
+	text-align: center;
 }
 
 .hidden {
@@ -78,4 +83,36 @@ nav {
 
 .article-content {
 	height: 25em;
+}
+
+.comment-container {
+	position: relative;
+	border: 1px solid rgba(200,200,200,.8);
+	border-radius: 4px;
+	padding-top: 5px;
+	padding-left: 10px;
+}
+
+.content {
+	width: 95%;
+	float: left;
+}
+.comments {
+	/*position: absolute;*/
+}
+
+.comment {
+	list-style: none;
+}
+
+.comment-indicator {
+	display: block;
+	height: 95%;
+	width: 5px;
+	float: right;
+	/*background-color: #777777;*/
+}
+
+.yes-comments {
+	background-color: #ff6666;
 }

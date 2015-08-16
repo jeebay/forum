@@ -20,6 +20,7 @@ nav {
 
 .nav-search {
 	list-style: none;
+	float: right;
 }
 
 .id-list {

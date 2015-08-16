@@ -21,7 +21,7 @@ app.use(express.static(__dirname + '/static'));
 
 // begin routes section
 app.get('/', function (req, res) {
-    db.all('SELECT users.user_name, users.id AS user_id,  articles.id AS article_id, articles.title, articles.source_url, articles.user_id, articles.date_created, paragraphs.content AS snippet FROM articles, users, paragraphs WHERE articles.id = paragraphs.article_id AND users.id = articles.user_id AND  paragraphs.paragraph_no = 1', function (err, articles) {
+    db.all('SELECT users.user_name, users.id AS user_id,  articles.id AS article_id, articles.title, articles.source_url, articles.user_id, articles.date_created, paragraphs.content AS snippet FROM articles, users, paragraphs WHERE articles.id = paragraphs.article_id AND users.id = articles.user_id AND paragraphs.paragraph_no = 1 ORDER BY articles.id DESC', function (err, articles) {
         if (err) {
             throw err;
         } else {
