@@ -85,6 +85,12 @@ nav {
 	text-align: center;
 }
 
+.profile-pic {
+	
+	width: 70px;
+	height: 70px;
+}
+
 .comment-form {
 	margin-bottom: 0;
 }

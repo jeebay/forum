@@ -33,6 +33,11 @@ $('#user-name').on('blur', function (e) {
             $('.submit').attr('disabled', false);
             $('.user-id').val(data['id'])
             $('#user-name').attr('disabled', true);
+            $('.profile-pic-container').empty();
+            var picURL = data.img_url
+            var $pic = $("<img class='profile-pic'>");
+            $pic.attr('src', picURL);
+            $('.profile-pic-container').append($pic);
             console.log(data['id']);
         // If string, username does not exist in DB
         } else if (typeof(data) === 'string') {
@@ -53,3 +58,21 @@ $('.cancel').click(function(e){
     $('#user-name').val('');
     $('#new-comment-content').val('');
 });
+
+function geo_success(position) {
+  console.log(position.coords.latitude, position.coords.longitude);
+}
+
+function geo_error() {
+  alert("Sorry, no position available.");
+}
+
+var geo_options = {
+  enableHighAccuracy: true, 
+  maximumAge        : 30000, 
+  timeout           : 27000
+};
+
+var wpid = navigator.geolocation.getCurrentPosition(geo_success, geo_error);
+
+
