@@ -173,6 +173,13 @@ nav {
 	nav {
 		height: 82px;
 	}
+	.comment-modal-ptext {
+		width: 100%;
+	}
+	.comment-modal-body {
+		width: 100%;
+		position: absolute;
+	}
 	.menu-spacer {
 		margin-bottom: 90px;
 	}
