@@ -97,14 +97,20 @@ app.get('/users/new', function (req, res) {
     res.render('newuser.ejs');
 });
 
-// Display articles authored by a user
+// Display articles authored by a user and articles on their to-do list
 app.get('/users/:user', function (req, res) {
     db.get('SELECT * FROM users WHERE user_name=?', req.params.user, function (err, user) {
         if (user.length === 0) {
             res.redirect('/404');
         }
-        db.all('SELECT users.user_name, users.id AS user_id,  articles.id AS article_id, articles.title, articles.source_url, articles.user_id, articles.date_created, paragraphs.content AS snippet, (SELECT COUNT(*) FROM comments, paragraphs  WHERE paragraphs.article_id = articles.id AND paragraphs.id = comments.paragraph_id) AS comment_count FROM articles, users, paragraphs WHERE users.id=? AND articles.id = paragraphs.article_id AND users.id = articles.user_id AND paragraphs.paragraph_no = 1 ORDER BY articles.id DESC', user.id, function (err, articles) {
-            res.render('user.ejs', {"user":user, "articles":articles});
+        db.all('SELECT users.user_name, users.id AS user_id, articles.id AS article_id, articles.title, articles.source_url, articles.user_id, articles.date_created, paragraphs.content AS snippet, (SELECT COUNT(*) FROM comments, paragraphs  WHERE paragraphs.article_id = articles.id AND paragraphs.id = comments.paragraph_id) AS comment_count FROM articles, users, paragraphs WHERE users.id=? AND articles.id = paragraphs.article_id AND users.id = articles.user_id AND paragraphs.paragraph_no = 1 ORDER BY articles.id DESC', user.id, function (err, articles) {
+            if (err) {
+                throw err;
+            } else {
+                db.all('SELECT articles. * FROM articles, users, to_read WHERE to_read.article_id = articles.id AND to_read.user_id = users.id AND users.id=?', user.id, function (err, toread) {
+                    res.render('user.ejs', {"user":user, "articles":articles, "toread":toread});
+                });
+            }
         });
     });
 });

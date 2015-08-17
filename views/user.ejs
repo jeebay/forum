@@ -26,7 +26,7 @@
         <div class="row">
             <div class="one-half column recent-articles">
                 <h1>Articles by: <u class="page-title"><%=user.user_name%></u></h1>
-
+                <img src="<%=user.img_url%>" class="profile-pic u-max-full-width">
                 <ul class="recent-article-list">
                     <% articles.forEach(function (article) {%>
                         <li class="article-listing">
@@ -49,7 +49,23 @@
                 </ul>
             </div>
             <div class="one-half column profile-pic-container">
-                <img src="<%=user.img_url%>" class="profile-pic u-max-full-width">
+                <h3>To Read List</h3>
+                <ul class="recent-article-list">
+                    <% toread.forEach(function (article) {%>
+                        <li class="article-listing">
+                            <div><h4 class="article-title"><%=article.title%></h4><img src="/img/thumbsup.png" style="margin-left: 10px; height:2em; float:right" class="thumbs-up"></div>
+                            <div class="article-footer">
+                                <form class="article-form" action="/articles/<%=article.article_id%>" method="GET">
+                                    <button class="button-primary">read now</button>
+                                </form>
+                                <form class="article-form" action="/toread" method="POST">
+                                    <input type="text" name="article" value="<%=article.id%>" style="display:none" />
+                                    <button>save for later</button>
+                                </form>
+                            </div>
+                        </li>
+                    <% }) %>
+                </ul>
             </div>
         </div>
     </div>

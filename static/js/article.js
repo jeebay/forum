@@ -14,7 +14,9 @@ $('.paragraph').click(function(e){
         $(row).eq(0).addClass('selected');
     // Tests for click on hide comment button
     } else if (targetId === "hide-comments") {
-        $(commentSection).empty();
+        $('.comment-container').removeClass('fadeInLeft');
+        $('.comment-container').addClass('fadeOutLeft');
+        setTimeout(function(){$(commentSection).empty()},1000);
         $(row).eq(0).removeClass('selected');
     // Tests for click on new comment button
     } else if (targetId === "new-comment") {

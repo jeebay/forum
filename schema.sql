@@ -3,6 +3,7 @@ DROP TABLE IF EXISTS articles;
 DROP TABLE IF EXISTS paragraphs;
 DROP TABLE IF EXISTS conversations;
 DROP TABLE IF EXISTS comments;
+DROP TABLE IF EXISTS to_read;
 PRAGMA foreign_keys = ON;
 CREATE TABLE users (
 	id INTEGER PRIMARY KEY autoincrement,
@@ -40,7 +41,16 @@ CREATE TABLE comments (
 	FOREIGN KEY (user_id) REFERENCES users(id),
 	FOREIGN KEY (paragraph_id) REFERENCES paragraphs(id)
 );
-INSERT INTO users (user_name, password, img_url) VALUES ('jeebay', 'bbbb', "http://i.giphy.com/xTiTng0K7lW3GmaMb6.gif"), ('georgie', 'gggg', "http://frankwarner.typepad.com/free_frank_warner/images/2008/03/07/reagan_profile.jpg"), ('chief', 'cccc', "http://static.comicvine.com/uploads/original/11111/111117347/3554426-8054600695-halo-.jpg"), ('belle', 'eeee', "https://apekshadrishtikon.files.wordpress.com/2013/06/old_armenian_book_by_deviantik.jpg"), ('anonymous','aaaa');
+
+CREATE TABLE to_read (
+	user_id INTEGER,
+	article_id INTEGER,
+	FOREIGN KEY (user_id) REFERENCES users(id),
+	FOREIGN KEY (article_id) REFERENCES articles(id),
+	PRIMARY KEY (user_id, article_id)
+);
+
+INSERT INTO users (user_name, password, img_url) VALUES ('jeebay', 'bbbb', "http://i.giphy.com/xTiTng0K7lW3GmaMb6.gif"), ('georgie', 'gggg', "http://frankwarner.typepad.com/free_frank_warner/images/2008/03/07/reagan_profile.jpg"), ('chief', 'cccc', "http://static.comicvine.com/uploads/original/11111/111117347/3554426-8054600695-halo-.jpg"), ('belle', 'eeee', "https://apekshadrishtikon.files.wordpress.com/2013/06/old_armenian_book_by_deviantik.jpg"), ('anonymous','aaaa','');
 
 INSERT INTO articles (title, source_url, user_id) VALUES ('Connecticut ends death penalty', 'http://www.reuters.com/article/2015/08/13/us-usa-connecticut-execution-idUSKCN0QI1YW20150813', 2);
 INSERT INTO articles (title, source_url, user_id) VALUES ('Yes, teflon does make you sick', 'https://firstlook.org/theintercept/2015/08/11/dupont-chemistry-deception/', 1);
@@ -64,6 +74,10 @@ INSERT INTO comments (user_id, content, paragraph_id) VALUES (3, "there's no evi
 INSERT INTO comments (user_id, content, paragraph_id) VALUES (1, "if enough states determine that the death penalty is cruel and unsual then that could provide precedent for the US Supreme Court to also deem it so.", 1);
 INSERT INTO comments (user_id, content, paragraph_id) VALUES (2, "so, you're a communist?", 1);
 
+insert into to_read (user_id, article_id) values (1,2);
+insert into to_read (user_id, article_id) values (1,3);
+insert into to_read (user_id, article_id) values (2,1);
+insert into to_read (user_id, article_id) values (2,2);
 
 
 
