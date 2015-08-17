@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>New User</title>
+    <link rel="stylesheet" href="/css/normalize.css">
+    <link rel="stylesheet" href="/css/skeleton.css">
+    <link rel="stylesheet" href="/css/newuser.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+</head>
+<body>
+    <div class="exists-modal hidden">
+        <div class="exists-modal-body">
+            <h3>User name already exists</h3>
+            <p>Please try a new user name.</p>
+            <button class="button-primary exists-modal-ok">Ok</button>
+        </div>
+    </div>
+
+    <nav>
+        <ul class="nav-bar">
+            <li class="nav-item"> <h5><a href="/">Home</a></h5> </li>
+            <li class="nav-item"> <h5><a href="/articles/new">New Article</a></h5> </li>
+            <li class="nav-item"> <h5><a href="/toread">Saved List</a></h5> </li>
+            <li class="nav-item"> <h5><a href="/users/new">New User</a></h5> </li>
+            <li class="nav-search"> <form action="/search" method="GET"> <input type="text" name="terms" class="menu-search"> <button class="button-primary search-button">search</button> </form> </li>
+        </ul>
+
+    </nav>
+    <div class="menu-spacer"></div>
+    <div class="container"> 
+        <div class="row">
+            <div class="six columns">
+                <form action="/users" method="POST">
+                    <label for="user-name">User name</label>
+                    <input class="u-full-width" type="text" name="user_name" placeholder="enter username" required id="user-name">
+                    <label for="password">Password</label>
+                    <input class="u-full-width" type="password" name="password" placeholder="enter username" required id="password">
+                    <label for="url">Profile Image URL</label>
+                    <input class="u-full-width" type="text" name="img_url" placeholder="enter image url" id="img-url">
+                    <button class="button-primary submit">Submit</button>
+                </form>
+            </div>
+            <div class="six columns">
+                <p style="text-align:center">Profile Pic Preview</p>
+                <div class="profile-pic-container">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <script language="javascript" type="text/javascript" src="/js/newuser.js"></script>
+</body>
+</html>

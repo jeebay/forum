@@ -21,7 +21,11 @@ app.use(express.static(__dirname + '/static'));
 
 // begin routes section
 app.get('/', function (req, res) {
-    db.all('SELECT users.user_name, users.id AS user_id,  articles.id AS article_id, articles.title, articles.source_url, articles.user_id, articles.date_created, paragraphs.content AS snippet FROM articles, users, paragraphs WHERE articles.id = paragraphs.article_id AND users.id = articles.user_id AND paragraphs.paragraph_no = 1 ORDER BY articles.id DESC', function (err, articles) {
+    res.redirect('/articles/recent')
+});
+
+app.get('/articles/recent', function (req, res) {
+    db.all('SELECT users.user_name, users.id AS user_id,  articles.id AS article_id, articles.title, articles.source_url, articles.user_id, articles.date_created, paragraphs.content AS snippet, (SELECT COUNT(*) FROM comments, paragraphs  WHERE paragraphs.article_id = articles.id AND paragraphs.id = comments.paragraph_id) AS comment_count FROM articles, users, paragraphs WHERE articles.id = paragraphs.article_id AND users.id = articles.user_id AND paragraphs.paragraph_no = 1 ORDER BY articles.id DESC', function (err, articles) {
         if (err) {
             throw err;
         } else {
@@ -29,23 +33,28 @@ app.get('/', function (req, res) {
                 if (err) {
                     throw err;
                 } else {
-                    res.render('index.ejs', {"articles":articles, "users":users});
+                    res.render('recent.ejs', {"articles":articles, "users":users});
                 }
-            })
+            });
         }
     });
 });
 
-app.get('/users/:user', function (req, res) {
-    db.get('SELECT * FROM users WHERE user_name=?', req.params.user, function (err, user) {
-        if (user.length === 0) {
-            res.redirect('/404');
+app.get('/articles/popular', function (req, res) {
+   db.all('SELECT users.user_name, users.id AS user_id,  articles.id AS article_id, articles.title, articles.source_url, articles.user_id, articles.date_created, paragraphs.content AS snippet, (SELECT COUNT(*) FROM comments, paragraphs  WHERE paragraphs.article_id = articles.id AND paragraphs.id = comments.paragraph_id) AS comment_count FROM articles, users, paragraphs WHERE articles.id = paragraphs.article_id AND users.id = articles.user_id AND paragraphs.paragraph_no = 1 ORDER BY comment_count DESC', function (err, articles) {
+        if (err) {
+            throw err;
+        } else {
+            db.all('SELECT * FROM users', function (err, users) {
+                if (err) {
+                    throw err;
+                } else {
+                    res.render('popular.ejs', {"articles":articles, "users":users});
+                }
+            });
         }
-        db.all('SELECT * FROM articles INNER JOIN users ON users.id = articles.user_id WHERE users.id=?', user.id, function (err, articles) {
-            res.render('user.ejs', {"user":user, "articles":articles});
-        });
-    });
-});
+    }); 
+})
 
 app.get('/articles/new', function (req, res) {
     res.render('newarticle.ejs');
@@ -71,8 +80,25 @@ app.get('/articles/:article/:paragraph', function (req, res ) {
     });
 });
 
+app.get('/users', function (req, res) {
+    db.all('SELECT * FROM users', function (err, rows) {
+        res.render('users.ejs', {"users":rows});
+    });
+});
+
 app.get('/users/new', function (req, res) {
     res.render('newuser.ejs');
+});
+
+app.get('/users/:user', function (req, res) {
+    db.get('SELECT * FROM users WHERE user_name=?', req.params.user, function (err, user) {
+        if (user.length === 0) {
+            res.redirect('/404');
+        }
+        db.all('SELECT users.user_name, users.id AS user_id,  articles.id AS article_id, articles.title, articles.source_url, articles.user_id, articles.date_created, paragraphs.content AS snippet, (SELECT COUNT(*) FROM comments, paragraphs  WHERE paragraphs.article_id = articles.id AND paragraphs.id = comments.paragraph_id) AS comment_count FROM articles, users, paragraphs WHERE users.id=? AND articles.id = paragraphs.article_id AND users.id = articles.user_id AND paragraphs.paragraph_no = 1 ORDER BY articles.id DESC', user.id, function (err, articles) {
+            res.render('user.ejs', {"user":user, "articles":articles});
+        });
+    });
 });
 
 app.get('/ajax/paragraphs/:id', function (req, res) {
@@ -101,7 +127,7 @@ app.post('/articles', function (req, res) {
             } else {
                 db.get('SELECT last_insert_rowid() AS article_id', function (err, rowid) {
                     var articleID = rowid.article_id;
-                    var paragraphs = article.split(/[\n\r]{2,}/);
+                    var paragraphs = req.body.article_body.split(/[\n\r]{2,}/);
                     paragraphs.forEach(function (paragraph, index) {
                         db.run('INSERT INTO paragraphs (article_id, paragraph_no, content) VALUES (?, ?, ?)', articleID, (index+1), paragraph, function (err) {
                             if (err) {
@@ -111,10 +137,21 @@ app.post('/articles', function (req, res) {
                             }
                         })
                     });
-                res.redirect('/');
+                res.redirect('/articles/'+articleID);
                 });
             }
         });
+    });
+});
+
+app.post('/users', function (req, res) {
+    db.run('INSERT INTO users (user_name, password, img_url) VALUES (?, ?, ?)', req.body.user_name, req.body.password, req.body.img_url, function (err) {
+        if (err) {
+            throw err;
+        } else {
+            console.log('added user');
+            res.redirect('/');
+        }
     });
 });
 

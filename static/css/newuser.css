@@ -58,7 +58,7 @@ nav {
 	margin-bottom: 60px;
 }
 
-.not-found, .comment-modal {
+.exists-modal {
 	height: 100%;
 	width: 100%;
 	position: fixed;
@@ -69,7 +69,7 @@ nav {
 	z-index: 35;
 }
 
-.not-found-body, .comment-modal-body {
+.exists-modal-body {
 	width: 800px;
 	max-width: 60%;
 	margin: auto;
@@ -79,14 +79,6 @@ nav {
 	border: 1px solid red;
 	padding: 10px;
 	z-index: 40;
-}
-
-.modal-title {
-	text-align: center;
-}
-
-.comment-form {
-	margin-bottom: 0;
 }
 
 #user-name {
@@ -102,49 +94,8 @@ nav {
 	box-shadow: 2px 2px 5px black; 
 }
 
-#new-comment-content {
-	width: 75%;
-	height: 6em; 
-}
-
 .hidden {
 	display: none;
-}
-
-.article-content {
-	height: 25em;
-}
-
-.comment-container {
-	position: relative;
-	border: 1px solid rgba(200,200,200,.8);
-	border-radius: 4px;
-	padding-top: 5px;
-	padding-left: 10px;
-}
-
-.content {
-	width: 95%;
-	float: left;
-}
-.comments {
-	/*position: absolute;*/
-}
-
-.comment {
-	list-style: none;
-}
-
-.comment-indicator {
-	display: block;
-	height: 95%;
-	width: 5px;
-	float: right;
-	/*background-color: #777777;*/
-}
-
-.yes-comments {
-	background-color: #ff6666;
 }
 
 @media screen and (max-width: 850px) {

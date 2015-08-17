@@ -13,6 +13,11 @@ nav {
 	z-index: 20;
 }
 
+.page-title {
+	background-color: #BBAA55;
+	color: #FFFAFA;
+}
+
 .nav-item {
 	list-style: none;
 	float: left;
@@ -58,6 +63,10 @@ nav {
 	margin-bottom: 60px;
 }
 
+.article-title {
+	display: inline;
+}
+
 .article-listing {
 	list-style: none;
 }
@@ -69,4 +78,31 @@ nav {
 .popular-articles {
 	border: 1px solid black;
 	position: fixed;
+}
+
+@media screen and (max-width: 850px) {
+	.nav-search {
+		display: none;
+	}
+/*	nav {
+		height: 82px;
+	}
+	.menu-spacer {
+		margin-bottom: 90px;
+	}*/
+}
+
+@media screen and (max-width: 450px) {
+	.nav-search {
+		display: none;
+	}
+	nav {
+		height: 82px;
+	}
+	.menu-spacer {
+		margin-bottom: 90px;
+	}
+	.nav-item {
+		margin-bottom: 0px;
+	}
 }

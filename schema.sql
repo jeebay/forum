@@ -40,7 +40,7 @@ CREATE TABLE comments (
 	FOREIGN KEY (user_id) REFERENCES users(id),
 	FOREIGN KEY (paragraph_id) REFERENCES paragraphs(id)
 );
-INSERT INTO users (user_name, password) VALUES ('jeebay', 'bbbb'), ('georgie', 'gggg'), ('chief', 'cccc'), ('belle', 'eeee'), ('anonymous','aaaa');
+INSERT INTO users (user_name, password, img_url) VALUES ('jeebay', 'bbbb', "http://i.giphy.com/xTiTng0K7lW3GmaMb6.gif"), ('georgie', 'gggg', "http://frankwarner.typepad.com/free_frank_warner/images/2008/03/07/reagan_profile.jpg"), ('chief', 'cccc', "http://static.comicvine.com/uploads/original/11111/111117347/3554426-8054600695-halo-.jpg"), ('belle', 'eeee', "https://apekshadrishtikon.files.wordpress.com/2013/06/old_armenian_book_by_deviantik.jpg"), ('anonymous','aaaa');
 
 INSERT INTO articles (title, source_url, user_id) VALUES ('Connecticut ends death penalty', 'http://www.reuters.com/article/2015/08/13/us-usa-connecticut-execution-idUSKCN0QI1YW20150813', 2);
 INSERT INTO articles (title, source_url, user_id) VALUES ('Yes, teflon does make you sick', 'https://firstlook.org/theintercept/2015/08/11/dupont-chemistry-deception/', 1);

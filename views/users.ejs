@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Users</title>
+    <link rel="stylesheet" href="/css/normalize.css">
+    <link rel="stylesheet" href="/css/skeleton.css">
+    <link rel="stylesheet" href="/css/article.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+</head>
+<body>
+    <nav>
+        <ul class="nav-bar">
+            <li class="nav-item"> <h5><a href="/">Home</a></h5> </li>
+            <li class="nav-item"> <h5><a href="/articles/new">New Article</a></h5> </li>
+            <li class="nav-item"> <h5><a href="/toread">Saved List</a></h5> </li>
+            <li class="nav-item"> <h5><a href="/users">View Users</a></h5> </li>
+            <!-- <li class="nav-item"> <h5><a href="/users/new">New User</a></h5> </li> -->
+            <!-- <li class="nav-search"> <form action="/search" method="GET"> <input type="text" name="terms" class="menu-search"> <button class="button-primary search-button">search</button> </form> </li> -->
+        </ul>
+
+    </nav>
+
+    <div class="menu-spacer"></div>
+    <section class="header-section">
+        <div class="container"> 
+            <div class="row">
+                <div class="one-half column article-title">
+                    <h2> <a href="/users/new" style="color:#1EAEDB">Create new user</a> </h2>
+                    <h2>All Users</h2>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="article">
+        <div class="container">
+            <div class="row">
+                <div class="twelve columns article-body">
+                    <% users.forEach(function (user) {%>
+                    <%if (user.user_name !== "anonymous") {%>    
+                        <div class="row paragraph">
+                            <div class="two columns paragraph-content">
+                                <h3 class="content" id="p<%=user.id%>"> <a href="/users/<%=user.user_name%>"> <%=user.user_name%></a>
+                                </h3>
+                            </div>
+                            <!-- <div class="one column">
+                                
+                                &nbsp;
+                            </div> -->
+                            <div class="five columns paragraph-comments">
+                                <div class="profile-pic-container">
+                                    <img src="<%=user.img_url%>" class="u-max-full-width">
+                                </div>
+                            </div>
+                        </div>
+                    <% } %>
+                    <% }) %>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script language="javascript" type="text/javascript" src="/js/article.js"></script>
+</body>
+</html>

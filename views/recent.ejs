@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Forum | <%=user.user_name%></title>
+    <title>Forum</title>
     <link rel="stylesheet" href="/css/normalize.css">
     <link rel="stylesheet" href="/css/skeleton.css">
     <link rel="stylesheet" href="/css/index.css">
@@ -24,13 +24,13 @@
     <div class="container">
         <div class="row">
             <div class="one-half column recent-articles">
-                <h1>Articles by: <u class="page-title"><%=user.user_name%></u></h1>
-
+                <h1><u class="page-title">What Had Happened Was</u></h1>
+                <a href="/articles/popular">Order by Most Comments</a>
                 <ul class="recent-article-list">
                     <% articles.forEach(function (article) {%>
                         <li class="article-listing">
                             <div><h3 class="article-title"><%=article.title%></h3><img src="/img/thumbsup.png" style="margin-left: 10px; height:2em; float:right" class="thumbs-up"></div>
-                            <p><em>User: <%=article.user_name%></em> | <b><%=article.comment_count%> <%=article.comment_count == 1 ? "comment" : "comments" %></b><br>
+                            <p><em>User: <a href="/users/<%=article.user_name%>"><%=article.user_name%></a></em> | <b><%=article.comment_count%> <%=article.comment_count == 1 ? "comment" : "comments" %></b><br>
                                 Posted on: <em><%=article.date_created.match(/\d+\-\d+\-\d+/)[0]%></em>
                             </p>
                             <p class="first-paragraph"><%=article.snippet%></p>
