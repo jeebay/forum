@@ -151,12 +151,14 @@ nav {
 	.nav-search {
 		display: none;
 	}
+	.comment-modal {
+		position: absolute;
+	}
 	.comment-modal-ptext {
 		width: 100%;
 	}
 	.comment-modal-body {
 		width: 100%;
-		position: absolute;
 	}
 /*	nav {
 		height: 82px;
@@ -178,6 +180,8 @@ nav {
 	}
 	.comment-modal-body {
 		width: 100%;
+	}
+	.comment-modal {
 		position: absolute;
 	}
 	.menu-spacer {
