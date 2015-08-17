@@ -58,6 +58,11 @@ nav {
 	margin-bottom: 60px;
 }
 
+.page-title {
+	background-color: #BBAA55;
+	color: #FFFAFA;
+}
+
 .not-found, .comment-modal {
 	height: 100%;
 	width: 100%;
@@ -115,6 +120,10 @@ nav {
 
 .hidden {
 	display: none;
+}
+
+.selected {
+	background-color: #EEEBDE
 }
 
 .article-content {

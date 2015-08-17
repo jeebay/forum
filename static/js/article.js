@@ -11,9 +11,11 @@ $('.paragraph').click(function(e){
         $.get('/ajax/paragraphs/'+paragraphId, function (data) {
             $(commentSection).html(data);
         });
+        $(row).eq(0).addClass('selected');
     // Tests for click on hide comment button
     } else if (targetId === "hide-comments") {
         $(commentSection).empty();
+        $(row).eq(0).removeClass('selected');
     // Tests for click on new comment button
     } else if (targetId === "new-comment") {
         var ptext = $(row).eq(0).children().eq(0).html();
