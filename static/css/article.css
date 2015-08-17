@@ -160,6 +160,10 @@ nav {
 	.comment-modal-body {
 		width: 100%;
 	}
+	#new-comment-content {
+		width: 100%;
+		height: 6em; 
+	}
 /*	nav {
 		height: 82px;
 	}
@@ -183,6 +187,10 @@ nav {
 	}
 	.comment-modal {
 		position: absolute;
+	}
+	#new-comment-content {
+		width: 100%;
+		height: 6em; 
 	}
 	.menu-spacer {
 		margin-bottom: 90px;
