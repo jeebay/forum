@@ -25,6 +25,7 @@ app.get('/', function (req, res) {
 });
 
 app.get('/articles/recent', function (req, res) {
+// pass article data to EJS to render articles by date created descending
     db.all('SELECT users.user_name, users.id AS user_id,  articles.id AS article_id, articles.title, articles.source_url, articles.user_id, articles.date_created, paragraphs.content AS snippet, (SELECT COUNT(*) FROM comments, paragraphs  WHERE paragraphs.article_id = articles.id AND paragraphs.id = comments.paragraph_id) AS comment_count FROM articles, users, paragraphs WHERE articles.id = paragraphs.article_id AND users.id = articles.user_id AND paragraphs.paragraph_no = 1 ORDER BY articles.id DESC', function (err, articles) {
         if (err) {
             throw err;
@@ -40,6 +41,7 @@ app.get('/articles/recent', function (req, res) {
     });
 });
 
+// pass article data to EJS to render articles by number of comments
 app.get('/articles/popular', function (req, res) {
    db.all('SELECT users.user_name, users.id AS user_id,  articles.id AS article_id, articles.title, articles.source_url, articles.user_id, articles.date_created, paragraphs.content AS snippet, (SELECT COUNT(*) FROM comments, paragraphs  WHERE paragraphs.article_id = articles.id AND paragraphs.id = comments.paragraph_id) AS comment_count FROM articles, users, paragraphs WHERE articles.id = paragraphs.article_id AND users.id = articles.user_id AND paragraphs.paragraph_no = 1 ORDER BY comment_count DESC', function (err, articles) {
         if (err) {
@@ -54,12 +56,14 @@ app.get('/articles/popular', function (req, res) {
             });
         }
     }); 
-})
+});
 
+// Create new article page
 app.get('/articles/new', function (req, res) {
     res.render('newarticle.ejs');
 })
 
+// View an article
 app.get('/articles/:article', function (req, res) {
     db.all('SELECT paragraphs.*, (SELECT COUNT(*) FROM comments WHERE paragraphs.id = comments.paragraph_id) AS comment_count FROM paragraphs WHERE paragraphs.article_id=? ORDER BY paragraphs.id ASC', parseInt(req.params.article), function (err, paragraphs) {
         db.get('SELECT * FROM articles WHERE articles.id=?',parseInt(req.params.article), function (err, article) {
@@ -70,26 +74,30 @@ app.get('/articles/:article', function (req, res) {
     });
 });
 
-app.get('/articles/:article/:paragraph', function (req, res ) {
-    db.all('SELECT * FROM paragraphs INNER JOIN articles ON paragraphs.article_id = articles.id WHERE articles.id=? AND paragraph.id=?', req.params.article, req.params.paragraph, function (err, paragraph) {
-        db.get('SELECT * FROM articles WHERE articles.id=?',req.params.article, function (err, article) {
-            db.all('SELECT * FROM comments INNER JOIN conversations users.id = article.user_id', function (err, user) {
-                res.render('paragraph.ejs', {"paragraphs":paragraph, "article":article, "user":user})
-            });
-        });
-    });
-});
+// // Route not currently used, to display a paragraph and related comments
+// app.get('/articles/:article/:paragraph', function (req, res ) {
+//     db.all('SELECT * FROM paragraphs INNER JOIN articles ON paragraphs.article_id = articles.id WHERE articles.id=? AND paragraph.id=?', req.params.article, req.params.paragraph, function (err, paragraph) {
+//         db.get('SELECT * FROM articles WHERE articles.id=?',req.params.article, function (err, article) {
+//             db.all('SELECT * FROM comments INNER JOIN conversations users.id = article.user_id', function (err, user) {
+//                 res.render('paragraph.ejs', {"paragraphs":paragraph, "article":article, "user":user})
+//             });
+//         });
+//     });
+// });
 
+// All users page
 app.get('/users', function (req, res) {
     db.all('SELECT * FROM users', function (err, rows) {
         res.render('users.ejs', {"users":rows});
     });
 });
 
+// Create new user page
 app.get('/users/new', function (req, res) {
     res.render('newuser.ejs');
 });
 
+// Display articles authored by a user
 app.get('/users/:user', function (req, res) {
     db.get('SELECT * FROM users WHERE user_name=?', req.params.user, function (err, user) {
         if (user.length === 0) {
@@ -101,6 +109,7 @@ app.get('/users/:user', function (req, res) {
     });
 });
 
+// AJAX request, returns a rendered partial view populated with comments
 app.get('/ajax/paragraphs/:id', function (req, res) {
     db.all('SELECT comments.*, users.user_name FROM comments, users WHERE comments.paragraph_id=? AND comments.user_id = users.id', parseInt(req.params.id), function (err, rows) {
         if (err) {
@@ -111,6 +120,7 @@ app.get('/ajax/paragraphs/:id', function (req, res) {
     });
 });
 
+// AJAX receives a username which is unique and returns the associated database row
 app.get('/ajax/checkuser', function (req, res) {
     db.get('SELECT * FROM users WHERE users.user_name=?', req.query.user_name, function (err, row) {
         var user = JSON.stringify(row)
@@ -119,14 +129,17 @@ app.get('/ajax/checkuser', function (req, res) {
     });
 });
 
+// Create new article
 app.post('/articles', function (req, res) {
     db.get('SELECT * FROM users WHERE users.user_name=?',req.body.user_name, function (err, user) {
         db.run('INSERT INTO articles (title, source_url, user_id) VALUES (?, ?, ?)', req.body.title, req.body.url, parseInt(user.id), function (err) {
             if (err) {
                 throw err;
             } else {
+                // In the same database connection returns the id of the las created row, which in this case is the ID of the new article
                 db.get('SELECT last_insert_rowid() AS article_id', function (err, rowid) {
                     var articleID = rowid.article_id;
+                    // split the comment section based on two new line characters
                     var paragraphs = req.body.article_body.split(/[\n\r]{2,}/);
                     paragraphs.forEach(function (paragraph, index) {
                         db.run('INSERT INTO paragraphs (article_id, paragraph_no, content) VALUES (?, ?, ?)', articleID, (index+1), paragraph, function (err) {
@@ -135,8 +148,9 @@ app.post('/articles', function (req, res) {
                             } else {
                                 console.log('created paragraph');
                             }
-                        })
+                        });
                     });
+                // after creating the article and paragraphs, redirect to the new article
                 res.redirect('/articles/'+articleID);
                 });
             }
@@ -144,23 +158,26 @@ app.post('/articles', function (req, res) {
     });
 });
 
+// create a new user and redirect to users view
 app.post('/users', function (req, res) {
     db.run('INSERT INTO users (user_name, password, img_url) VALUES (?, ?, ?)', req.body.user_name, req.body.password, req.body.img_url, function (err) {
         if (err) {
             throw err;
         } else {
             console.log('added user');
-            res.redirect('/');
+            res.redirect('/users');
         }
     });
 });
 
+// create a new comment and redirect back to the same article 
 app.post('/comments', function (req, res) {
     db.run('INSERT INTO comments (user_id, content, paragraph_id) VALUES (?, ?, ?)', parseInt(req.body.user_id,10), req.body.content, parseInt(req.body.paragraph_id,10), function (err) {
         if (err) {
             throw err;
         } else {
             console.log('added new comment');
+            // extract the referer url from the req object
             var refererIndex = req.rawHeaders.indexOf('Referer');
             var referer = req.rawHeaders[refererIndex + 1]            
             res.redirect(referer);
